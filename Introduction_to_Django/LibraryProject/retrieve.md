@@ -1,10 +1,14 @@
 from bookshelf.models import Book
 
-# Retrieve all books
-books = Book.objects.all()
+# Retrieve the book using .get()
+book = Book.objects.get(title="1984")
 
-for b in books:
-    print(b.title, b.author, b.publication_year)
+# Display all attributes
+print(book.title)
+print(book.author)
+print(book.publication_year)
 
 # Output:
-# 1984 George Orwell 1949
+# 1984
+# George Orwell
+# 1949
