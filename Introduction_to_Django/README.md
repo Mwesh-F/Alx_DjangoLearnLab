@@ -1,1 +1,2 @@
+LibraryProject - Django Setup
 
