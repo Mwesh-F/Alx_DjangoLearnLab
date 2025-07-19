@@ -1,0 +1,30 @@
+<!-- member_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Dashboard</title>
+</head>
+<body>
+    <h1>Member Dashboard</h1>
+    <p>Welcome, {{ user.username }}! You have Member privileges.</p>
+    
+    <h2>Member Functions:</h2>
+    <ul>
+        <li>Browse and search books</li>
+        <li>Check out books</li>
+        <li>Return books</li>
+        <li>Reserve books</li>
+        <li>View borrowing history</li>
+    </ul>
+    
+    <h3>Quick Actions:</h3>
+    <ul>
+        <li><a href="{% url 'relationship_app:list_books' %}">Browse All Books</a></li>
+        <li><a href="{% url 'relationship_app:library_list' %}">Find Libraries</a></li>
+        <li><a href="{% url 'relationship_app:logout' %}">Logout</a></li>
+    </ul>
+    
+    <p><strong>Role:</strong> {{ user.userprofile.role }}</p>
+</body>
+</html> 
