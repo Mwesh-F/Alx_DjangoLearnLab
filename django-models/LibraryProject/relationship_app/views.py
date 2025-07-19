@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from .models import Book, Library, Author, Librarian
+from .models import Book, Library, Author, Librarian, UserProfile
 from .models import Library
 
 # Create your views here.
@@ -81,3 +81,41 @@ class CustomLogoutView(LogoutView):
     Custom logout view using Django's built-in LogoutView
     """
     template_name = 'relationship_app/logout.html'
+
+# Role-based access control functions
+def is_admin(user):
+    """Check if user has Admin role"""
+    return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
+
+def is_librarian(user):
+    """Check if user has Librarian role"""
+    return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
+
+def is_member(user):
+    """Check if user has Member role"""
+    return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
+
+# Role-based views
+@login_required
+@user_passes_test(is_admin)
+def admin_view(request):
+    """
+    Admin view that only users with 'Admin' role can access
+    """
+    return render(request, 'relationship_app/admin_view.html')
+
+@login_required
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    """
+    Librarian view accessible only to users with 'Librarian' role
+    """
+    return render(request, 'relationship_app/librarian_view.html')
+
+@login_required
+@user_passes_test(is_member)
+def member_view(request):
+    """
+    Member view for users with 'Member' role
+    """
+    return render(request, 'relationship_app/member_view.html')
