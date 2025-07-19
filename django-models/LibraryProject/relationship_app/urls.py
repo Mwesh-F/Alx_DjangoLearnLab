@@ -1,13 +1,14 @@
 from django.urls import path
-from .views import list_books, LibraryDetailView, library_list, author_detail, register_view, login_view, logout_view
+from . import views
+from .views import list_books, LibraryDetailView, library_list, author_detail, register, CustomLoginView, CustomLogoutView
 
 app_name = 'relationship_app'
 
 urlpatterns = [
     # Authentication URLs
-    path('register/', register_view, name='register'),
-    path('login/', login_view, name='login'),
-    path('logout/', logout_view, name='logout'),
+    path('register/', views.register, name='register'),
+    path('login/', CustomLoginView.as_view(template_name='relationship_app/login.html'), name='login'),
+    path('logout/', CustomLogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
     
     # Function-based view for listing all books
     path('books/', list_books, name='list_books'),
