@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -50,7 +51,7 @@ def author_detail(request, author_id):
         'books': books
     })
 
-def register_view(request):
+def register(request):
     """
     User registration view using Django's built-in UserCreationForm
     """
@@ -68,31 +69,15 @@ def register_view(request):
     
     return render(request, 'relationship_app/register.html', {'form': form})
 
-def login_view(request):
+class CustomLoginView(LoginView):
     """
-    User login view using Django's built-in AuthenticationForm
+    Custom login view using Django's built-in LoginView
     """
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f'Welcome back, {username}!')
-                return redirect('relationship_app:list_books')
-        else:
-            messages.error(request, 'Invalid username or password.')
-    else:
-        form = AuthenticationForm()
-    
-    return render(request, 'relationship_app/login.html', {'form': form})
+    template_name = 'relationship_app/login.html'
+    redirect_authenticated_user = True
 
-def logout_view(request):
+class CustomLogoutView(LogoutView):
     """
-    User logout view
+    Custom logout view using Django's built-in LogoutView
     """
-    logout(request)
-    messages.success(request, 'You have been successfully logged out.')
-    return render(request, 'relationship_app/logout.html')
+    template_name = 'relationship_app/logout.html'
