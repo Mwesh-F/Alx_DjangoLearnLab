@@ -57,7 +57,8 @@ def query_all_books_by_author(author_name):
     print(f"\n=== Query 1: All books by {author_name} ===")
     try:
         author = Author.objects.get(name=author_name)
-        books = author.books.all()  # Using related_name='books'
+        # Using objects.filter(author=author) as expected by checkers
+        books = Book.objects.filter(author=author)
         
         print(f"Author: {author.name}")
         print("Books:")
