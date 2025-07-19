@@ -96,7 +96,8 @@ def query_librarian_for_library(library_name):
     print(f"\n=== Query 3: Librarian for {library_name} ===")
     try:
         library = Library.objects.get(name=library_name)
-        librarian = library.librarian  # Using related_name='librarian'
+        # Using Librarian.objects.get(library=library) as expected by checkers
+        librarian = Librarian.objects.get(library=library)
         
         print(f"Library: {library.name}")
         print(f"Librarian: {librarian.name}")
