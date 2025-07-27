@@ -1,10 +1,11 @@
+from .forms import ExampleForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from .models import Book
-from .forms import UserRegistrationForm, UserProfileUpdateForm, ExampleForm
+from .forms import UserRegistrationForm, UserProfileUpdateForm
 
 User = get_user_model()
 
