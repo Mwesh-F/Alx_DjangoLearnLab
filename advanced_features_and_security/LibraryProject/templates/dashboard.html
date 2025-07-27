@@ -23,7 +23,7 @@
                     <p><strong>Date of Birth:</strong> {{ user.date_of_birth|default:"Not provided" }}</p>
                     <p><strong>Phone:</strong> {{ user.phone_number|default:"Not provided" }}</p>
                     <p><strong>Bio:</strong> {{ user.bio|default:"No bio provided" }}</p>
-                    <a href="{% url 'accounts:profile' %}" class="btn btn-primary">Edit Profile</a>
+                    <a href="{% url 'bookshelf:profile' %}" class="btn btn-primary">Edit Profile</a>
                 </div>
             </div>
         </div>
