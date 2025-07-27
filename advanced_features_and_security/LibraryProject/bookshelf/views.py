@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from .models import Book
-from .forms import UserRegistrationForm, UserProfileUpdateForm
+from .forms import UserRegistrationForm, UserProfileUpdateForm, ExampleForm
 
 User = get_user_model()
 
