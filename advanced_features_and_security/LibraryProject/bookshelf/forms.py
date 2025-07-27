@@ -49,3 +49,8 @@ class UserProfileUpdateForm(forms.ModelForm):
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         } 
+
+
+class ExampleForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField() 
