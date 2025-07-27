@@ -9,23 +9,23 @@
             <h1>Welcome to Library Project</h1>
             <p class="lead">This is a Django application demonstrating advanced features and security practices.</p>
             
-            {% if user.is_authenticated %}
-                <div class="alert alert-success">
-                    <h4>Welcome back, {{ user.get_full_name|default:user.email }}!</h4>
-                    <p>You are logged in with email: {{ user.email }}</p>
-                    {% if user.date_of_birth %}
-                        <p>Date of Birth: {{ user.date_of_birth }}</p>
+                                {% if user.is_authenticated %}
+                        <div class="alert alert-success">
+                            <h4>Welcome back, {{ user.get_full_name|default:user.email }}!</h4>
+                            <p>You are logged in with email: {{ user.email }}</p>
+                            {% if user.date_of_birth %}
+                                <p>Date of Birth: {{ user.date_of_birth }}</p>
+                            {% endif %}
+                            <a href="{% url 'bookshelf:profile' %}" class="btn btn-primary">View Profile</a>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <h4>Get Started</h4>
+                            <p>Please log in or register to access all features.</p>
+                            <a href="{% url 'bookshelf:login' %}" class="btn btn-primary">Login</a>
+                            <a href="{% url 'bookshelf:register' %}" class="btn btn-outline-primary">Register</a>
+                        </div>
                     {% endif %}
-                    <a href="{% url 'accounts:profile' %}" class="btn btn-primary">View Profile</a>
-                </div>
-            {% else %}
-                <div class="alert alert-info">
-                    <h4>Get Started</h4>
-                    <p>Please log in or register to access all features.</p>
-                    <a href="{% url 'accounts:login' %}" class="btn btn-primary">Login</a>
-                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-primary">Register</a>
-                </div>
-            {% endif %}
             
             <h2>Recent Books</h2>
             {% if books %}
