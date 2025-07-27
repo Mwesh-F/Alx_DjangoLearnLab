@@ -1,66 +1,15 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.contrib.auth import get_user_model
-from .models import Book
-from .forms import UserRegistrationForm, UserProfileUpdateForm
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views
 
-User = get_user_model()
+app_name = 'bookshelf'
 
-
-def home(request):
-    """Home view for the application."""
-    books = Book.objects.all()[:5]  # Get first 5 books
-    context = {
-        'books': books,
-        'user': request.user,
-    }
-    return render(request, 'home.html', context)
-
-
-@login_required
-def user_dashboard(request):
-    """Dashboard view for authenticated users."""
-    context = {
-        'user': request.user,
-    }
-    return render(request, 'dashboard.html', context)
-
-
-def register(request):
-    """
-    View for user registration.
-    """
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save()
-            # Log the user in after successful registration
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(email=email, password=password)
-            login(request, user)
-            messages.success(request, 'Account created successfully!')
-            return redirect('bookshelf:home')  # Redirect to home page or dashboard
-    else:
-        form = UserRegistrationForm()
-    
-    return render(request, 'accounts/register.html', {'form': form})
-
-
-@login_required
-def profile(request):
-    """
-    View for displaying and updating user profile.
-    """
-    if request.method == 'POST':
-        form = UserProfileUpdateForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile updated successfully!')
-            return redirect('bookshelf:profile')
-    else:
-        form = UserProfileUpdateForm(instance=request.user)
-    
-    return render(request, 'accounts/profile.html', {'form': form})
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('dashboard/', views.user_dashboard, name='dashboard'),
+    path('register/', views.register, name='register'),
+    path('profile/', views.profile, name='profile'),
+    path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='bookshelf:home'), name='logout'),
+    path('book_list/', views.book_list, name='book_list'),
+] 
