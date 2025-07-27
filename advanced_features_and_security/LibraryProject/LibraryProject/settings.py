@@ -30,18 +30,23 @@ DEBUG = False  # Set to True only during development!
 # Allow only your domain in production
 ALLOWED_HOSTS = ['yourdomain.com']  # Update with your production domain
 
-# Enable browser-side XSS filter
-SECURE_BROWSER_XSS_FILTER = True  # Helps prevent some XSS attacks
+# === HTTPS & SECURE REDIRECTS ===
+# Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = True  # Enforce HTTPS in production
 
-# Prevent the site from being loaded in a frame (clickjacking protection)
-X_FRAME_OPTIONS = 'DENY'
+# HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow site to be included in browser preload lists
 
-# Prevent the browser from guessing content types
-SECURE_CONTENT_TYPE_NOSNIFF = True
+# === SECURE COOKIES ===
+SESSION_COOKIE_SECURE = True  # Only send session cookies over HTTPS
+CSRF_COOKIE_SECURE = True     # Only send CSRF cookies over HTTPS
 
-# Ensure cookies are only sent over HTTPS
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# === SECURE HEADERS ===
+X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME type sniffing
+SECURE_BROWSER_XSS_FILTER = True    # Enable browser XSS filter
 
 # Content Security Policy (CSP) - see Step 4 for middleware setup
 # Example: CSP_DEFAULT_SRC = ("'self'",)
