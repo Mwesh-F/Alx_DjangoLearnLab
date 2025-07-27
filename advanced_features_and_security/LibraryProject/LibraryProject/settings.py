@@ -51,6 +51,9 @@ SECURE_BROWSER_XSS_FILTER = True    # Enable browser XSS filter
 # Content Security Policy (CSP) - see Step 4 for middleware setup
 # Example: CSP_DEFAULT_SRC = ("'self'",)
 
+# Trust X-Forwarded-Proto header set by the proxy (e.g., Nginx, Heroku) for HTTPS detection
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Application definition
 
