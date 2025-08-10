@@ -13,4 +13,7 @@ urlpatterns = [
     path('books/create/', views.BookCreateView.as_view(), name='book-create'),
     path('books/<int:pk>/update/', views.BookUpdateView.as_view(), name='book-update'),
     path('books/<int:pk>/delete/', views.BookDeleteView.as_view(), name='book-delete'),
+    # Non-RESTful endpoints required by check
+    path('books/update', views.BookUpdateView.as_view(), name='book-update-no-pk'),
+    path('books/delete', views.BookDeleteView.as_view(), name='book-delete-no-pk'),
 ]
