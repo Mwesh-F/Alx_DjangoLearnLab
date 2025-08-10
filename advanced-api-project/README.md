@@ -18,8 +18,22 @@ This project demonstrates advanced API development using Django REST Framework (
 - Book creation and update validate that `publication_year` is not in the future.
 - Permissions are enforced using DRF's `IsAuthenticated` and `AllowAny` classes.
 
+
+## Filtering, Searching, and Ordering
+
+The Book list endpoint (`GET /api/books/`) supports advanced query capabilities:
+
+- **Filtering**: Filter by `title`, `author`, or `publication_year`.
+	- Example: `/api/books/?title=MyBook&publication_year=2024`
+- **Searching**: Search by `title` or author name.
+	- Example: `/api/books/?search=Python`
+- **Ordering**: Order by `title` or `publication_year`.
+	- Example: `/api/books/?ordering=publication_year` (ascending)
+	- Example: `/api/books/?ordering=-title` (descending)
+
 ## How to Test
 - Use Postman, curl, or any API client to interact with the endpoints.
+- Test filtering, searching, and ordering by adding query parameters as shown above.
 - Attempt to create, update, or delete a book as an unauthenticated user to confirm permission enforcement.
 - Authenticated users can perform all CRUD operations.
 
