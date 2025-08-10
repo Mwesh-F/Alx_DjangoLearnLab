@@ -7,6 +7,7 @@ Implements CRUD operations for Book using DRF generic views and permissions.
 """
 from rest_framework import generics, filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters import rest_framework as django_filters_rest_framework
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
