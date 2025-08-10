@@ -1,0 +1,30 @@
+<!-- admin_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, {{ user.username }}! You have Admin privileges.</p>
+    
+    <h2>Admin Functions:</h2>
+    <ul>
+        <li>Manage all users and their roles</li>
+        <li>Add, edit, and delete books</li>
+        <li>Manage library inventory</li>
+        <li>View system statistics</li>
+        <li>Configure system settings</li>
+    </ul>
+    
+    <h3>Quick Actions:</h3>
+    <ul>
+        <li><a href="{% url 'relationship_app:list_books' %}">View All Books</a></li>
+        <li><a href="{% url 'relationship_app:library_list' %}">View All Libraries</a></li>
+        <li><a href="{% url 'relationship_app:logout' %}">Logout</a></li>
+    </ul>
+    
+    <p><strong>Role:</strong> {{ user.userprofile.role }}</p>
+</body>
+</html> 
