@@ -52,7 +52,7 @@ def post_search(request):
 	query = request.GET.get('q', '')
 	posts = Post.objects.all()
 	if query:
-		posts = posts.filter(
+		posts = Post.objects.filter(
 			Q(title__icontains=query) |
 			Q(content__icontains=query) |
 			Q(tags__name__icontains=query)
