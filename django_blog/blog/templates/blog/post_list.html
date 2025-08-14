@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <h1>All Blog Posts</h1>
+  <form method="get" action="{% url 'post-search' %}">
+    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}" />
+    <button type="submit">Search</button>
+  </form>
+  <a href="{% url 'post-create' %}">Create New Post</a>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a>
+        <p>{{ post.content|truncatechars:100 }}</p>
+        <p>
+          Tags:
+          {% for tag in post.tags.all %}
+            <a href="{% url 'tag-filter' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+          {% empty %} None
+          {% endfor %}
+        </p>
+      </li>
+    {% empty %}
+      <li>No posts available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
