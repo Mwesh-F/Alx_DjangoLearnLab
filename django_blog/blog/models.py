@@ -1,31 +1,37 @@
-from django.db import models
+from .models import Post, Comment
+from taggit.forms import TagWidget
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add your comment here...'})
+        }
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Post
 
 
+from .models import Tag
 
-class Tag(models.Model):
-	name = models.CharField(max_length=50, unique=True)
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': TagWidget(),
+        }
 
-	def __str__(self):
-		return self.name
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
 
-class Post(models.Model):
-	title = models.CharField(max_length=200)
-	content = models.TextField()
-	published_date = models.DateTimeField(auto_now_add=True)
-	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-	tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
 
-	def __str__(self):
-		return self.title
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
 
-
-class Comment(models.Model):
-	post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-	content = models.TextField()
-	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
-
-	def __str__(self):
-		return f"Comment by {self.author} on {self.post}" 
+    class Meta:
+        model = User
+        fields = ("username", "email")
