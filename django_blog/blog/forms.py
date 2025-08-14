@@ -1,4 +1,5 @@
 from .models import Post, Comment
+from taggit.forms import TagWidget
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -14,28 +15,12 @@ from .models import Post
 
 from .models import Tag
 
-class PostForm(forms.ModelForm):
-    tags = forms.CharField(
-        required=False,
-        help_text="Enter comma-separated tags (existing or new)",
-        widget=forms.TextInput(attrs={'placeholder': 'e.g. Django, Python, Tutorial'})
-    )
-
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        tags_str = self.cleaned_data.get('tags', '')
-        tag_names = [name.strip() for name in tags_str.split(',') if name.strip()]
-        if commit:
-            instance.save()
-            instance.tags.clear()
-            for name in tag_names:
-                tag_obj, created = Tag.objects.get_or_create(name=name)
-                instance.tags.add(tag_obj)
-        return instance
+        widgets = {
+            'tags': TagWidget(),
+        }
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
