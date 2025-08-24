@@ -6,17 +6,16 @@ from accounts.models import User
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
 # Like/Unlike views
+from rest_framework import generics
+
 class LikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, post_id):
-        try:
-            post = Post.objects.get(id=post_id)
-        except Post.DoesNotExist:
-            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
-        if Like.objects.filter(post=post, user=request.user).exists():
+    def post(self, request, pk):
+        post = generics.get_object_or_404(Post, pk=pk)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if not created:
             return Response({'error': 'You have already liked this post'}, status=status.HTTP_400_BAD_REQUEST)
-        Like.objects.create(post=post, user=request.user)
         # Create notification for post author
         if post.author != request.user:
             Notification.objects.create(
@@ -31,11 +30,8 @@ class LikePostView(APIView):
 class UnlikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, post_id):
-        try:
-            post = Post.objects.get(id=post_id)
-        except Post.DoesNotExist:
-            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+    def post(self, request, pk):
+        post = generics.get_object_or_404(Post, pk=pk)
         like = Like.objects.filter(post=post, user=request.user).first()
         if not like:
             return Response({'error': 'You have not liked this post'}, status=status.HTTP_400_BAD_REQUEST)
