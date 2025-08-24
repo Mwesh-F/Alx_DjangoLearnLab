@@ -1,3 +1,4 @@
+from django.db import models
 from .models import Post, Comment
 from taggit.forms import TagWidget
 class CommentForm(forms.ModelForm):
@@ -35,3 +36,4 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("username", "email")
+
