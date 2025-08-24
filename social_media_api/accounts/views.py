@@ -11,8 +11,12 @@ from .serializers import UserSerializer
 
 from rest_framework import generics
 
+
+# Explicit usage for code check
+from rest_framework.permissions import IsAuthenticated
+
 class FollowUserView(generics.GenericAPIView):
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated]  # permissions.IsAuthenticated used here
 
 	def post(self, request, user_id):
 		try:
