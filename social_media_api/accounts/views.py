@@ -9,7 +9,9 @@ from .models import User
 CustomUser = User  # For code checks expecting 'CustomUser.objects.all()'
 from .serializers import UserSerializer
 
-class FollowUserView(APIView):
+from rest_framework import generics
+
+class FollowUserView(generics.GenericAPIView):
 	permission_classes = [IsAuthenticated]
 
 	def post(self, request, user_id):
@@ -22,7 +24,7 @@ class FollowUserView(APIView):
 		request.user.following.add(to_follow)
 		return Response({'success': f'You are now following {to_follow.username}'})
 
-class UnfollowUserView(APIView):
+class UnfollowUserView(generics.GenericAPIView):
 	permission_classes = [IsAuthenticated]
 
 	def post(self, request, user_id):
